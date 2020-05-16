@@ -8,6 +8,8 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./ssl:/etc/nginx/ssl/bot:ro
+    depends_on:
+      - seal-of-approval-telegram-bot
   seal-of-approval-telegram-bot:
     image: seal-of-approval-telegram-bot:${VERSION}
     container_name: seal-of-approval-telegram-bot
@@ -16,5 +18,3 @@ services:
       - .env
     volumes:
       - ./ssl/bot.pem:${BOT_CERTITICATE_PATH}:ro
-    depends_on:
-      - nginx
