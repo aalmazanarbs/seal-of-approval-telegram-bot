@@ -1,0 +1,18 @@
+events {
+  worker_connections 512;
+}
+
+http {
+    server_tokens off;
+    
+    server {
+        listen              443 ssl;
+        server_name         ${HOST};
+        ssl_certificate     /etc/nginx/ssl/bot/bot.pem;
+        ssl_certificate_key /etc/nginx/ssl/bot/bot.key;
+        
+        location / {
+            proxy_pass http://seal-of-approval-telegram-bot:${APP_PORT};
+        }
+    }
+}

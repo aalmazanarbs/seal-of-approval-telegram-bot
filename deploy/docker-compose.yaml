@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx:1.18.0-alpine
+    container_name: seal-of-approval-telegram-nginx
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl/bot:ro
+  seal-of-approval-telegram-bot:
+    image: seal-of-approval-telegram-bot:${VERSION}
+    container_name: seal-of-approval-telegram-bot
+    build: ../
+    env_file:
+      - .env
+    volumes:
+      - ./ssl/bot.pem:${BOT_CERTITICATE_PATH}:ro
+    depends_on:
+      - nginx

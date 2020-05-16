@@ -1,0 +1,37 @@
+{
+    "name": "seal-of-approval-telegram-bot",
+    "version": "1.0.0",
+    "private": true,
+    "license": "MIT",
+    "scripts": {
+        "prebuild": "rimraf dist",
+        "build": "nest build",
+        "start": "nest start",
+        "start:dev": "nest start --watch",
+        "start:debug": "nest start --debug --watch",
+        "start:prod": "node dist/main",
+        "lint": "eslint \"{src,apps,libs}/**/*.ts\" --fix"
+    },
+    "dependencies": {
+        "@nestjs/common": "7.0.13",
+        "@nestjs/core": "7.0.13",
+        "@nestjs/platform-fastify": "7.0.13",
+        "nest-telegram": "https://github.com/aalmazanarbs/nest-telegram.git",
+        "reflect-metadata": "0.1.13",
+        "rimraf": "3.0.2",
+        "rxjs": "6.5.5"
+    },
+    "devDependencies": {
+        "@nestjs/cli": "7.1.5",
+        "@nestjs/schematics": "7.0.0",
+        "@types/node": "14.0.1",
+        "@typescript-eslint/eslint-plugin": "2.33.0",
+        "@typescript-eslint/parser": "2.33.0",
+        "eslint": "7.0.0",
+        "eslint-plugin-import": "2.20.2",
+        "ts-loader": "7.0.4",
+        "ts-node": "8.10.1",
+        "tsconfig-paths": "3.9.0",
+        "typescript": "3.9.2"
+    }
+}
