@@ -35,5 +35,5 @@ $ sh run clean
 
 for restart just
 ```bash
-$ sh run.sh clean
+$ ./run.sh clean
 ```
