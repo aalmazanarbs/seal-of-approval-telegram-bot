@@ -18,3 +18,10 @@ services:
       - .env
     volumes:
       - ./ssl/bot.pem:${BOT_CERTITICATE_PATH}:ro
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mvertes/alpine-mongo:4.0.6-1
+    container_name: seal-of-approval-telegram-mongodb
+    volumes:
+      - ./mongodb-data:/data/db

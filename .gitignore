@@ -40,3 +40,4 @@ package-lock.json
 /deploy/ssl
 /deploy/.env
 /deploy/nginx.conf
+/deploy/mongodb-data
