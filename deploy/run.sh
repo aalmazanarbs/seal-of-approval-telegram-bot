@@ -19,6 +19,11 @@ if [ -z "$APP_PORT" ]; then
     exit 1
 fi
 
+if [ -z "$BOT_SECRET_WEBHOOK_PATH" ]; then
+    echo "Bot secret web hook path environment variable is mandatory [BOT_SECRET_WEBHOOK_PATH]"
+    exit 1
+fi
+
 # Stop
 docker-compose down
 
@@ -37,7 +42,7 @@ if [ "$1" == "clean" ]; then
                 -out ssl/bot.pem
 
     # Nginx set up
-    sed 's/${HOST}/'"$HOST"'/g; s/${APP_PORT}/'"$APP_PORT"'/g' nginx.conf.template > nginx.conf
+    sed 's/${HOST}/'"$HOST"'/g; s/${APP_PORT}/'"$APP_PORT"'/g; s/${BOT_SECRET_WEBHOOK_PATH}/'"$BOT_SECRET_WEBHOOK_PATH"'/g' nginx.conf.template > nginx.conf
 fi
 
 # Run
