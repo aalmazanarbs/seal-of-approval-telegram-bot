@@ -1,6 +1,6 @@
 import { TelegramModuleOptionsFactory, TelegramModuleOptions } from 'nest-telegram';
 
-export class SealOfApprovalBotTelegramModuleOptionsFactory implements TelegramModuleOptionsFactory {
+export class TelegramBotModuleOptionsFactory implements TelegramModuleOptionsFactory {
     
     createOptions(): TelegramModuleOptions {
         return {
