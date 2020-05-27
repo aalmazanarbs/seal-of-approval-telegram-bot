@@ -12,21 +12,21 @@ export class TelegramApproveMessageService {
     constructor(private readonly pullRequestService: PullRequestService) { }
 
     @TelegramActionHandler({ message: validApproveUrlRegex })
-    async approve(ctx: Context, @PipeContext(TelegramUserContextTransformerService) user: User): Promise<void> {
+    async approve(context: Context, @PipeContext(TelegramUserContextTransformerService) user: User): Promise<void> {
         if (user) {
-            const pullRequest = this.extractPullRequest(ctx.message.text);
+            const pullRequest = this.extractPullRequestFromUrl(context.message.text);
             const approved = await this.pullRequestService.approve(pullRequest).toPromise();
             if (approved) {
-                await ctx.reply('Done 👍');
+                await context.reply('Done 👍');
             } else {
-                await ctx.reply('Bot monkeys can not do nothing with this pull request 🙈');
+                await context.reply('Bot monkeys can not do nothing with this pull request 🙈');
             }
         } else {
-            await ctx.reply('You are not allowed to request approval, type /start for register request 🤓');
+            await context.reply('You are not allowed to request approval, type /start for register request 🤓');
         }
     }
 
-    private extractPullRequest(url: string): PullRequest {
+    private extractPullRequestFromUrl(url: string): PullRequest {
         const { groups: { repository, id } } = validApproveUrlRegex.exec(url);
         return { repository, id };
     }

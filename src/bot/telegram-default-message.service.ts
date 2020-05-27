@@ -1,27 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Context, TelegramActionHandler, PipeContext } from 'nest-telegram';
-import { TelegramUserContextTransformerService } from './telegram-user-context-transformer.service';
-import { UsersService } from '../persistence/users.service';
-import { User } from '../persistence/user';
-import { validRegisterRegex } from './constants';
+import { Context, TelegramActionHandler } from 'nest-telegram';
+import { defaultMessageRegx } from './constants';
 
 @Injectable()
 export class TelegramDefaultMessageService {
 
-    constructor(private readonly usersService: UsersService) { }
-
-    @TelegramActionHandler({ message: validRegisterRegex })
-    async start(context: Context, @PipeContext(TelegramUserContextTransformerService) user: User): Promise<void> {
-        if (user?.isAdmin) {
-            const persistedUser = await this.usersService.save(this.convertRegisterRequestToUser(context.message.text));
-            await context.reply(`User ${persistedUser.userId} registered 🧐`);
-        } else {
-            await context.reply('You can not use register command ⛔');
-        }
-    }
-
-    private convertRegisterRequestToUser(registerRequest: string): User {
-        const { groups: { userId, chatId } } = validRegisterRegex.exec(registerRequest);
-        return { userId: +userId, chatId: +chatId, isAdmin: false};
+    @TelegramActionHandler({ message: defaultMessageRegx })
+    async start(context: Context): Promise<void> {
+        await context.reply('Bot monkeys don\'t know what to do with this message 🙊');
     }
 }

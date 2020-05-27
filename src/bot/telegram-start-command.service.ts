@@ -32,12 +32,12 @@ export class TelegramStartCommandService {
     private async processAnonymousUser(context: Context): Promise<void> {
         if (this.adminUsersIds.has(context.from.id)) {
             this.safeOrUpdateUser(context.from.id, context.chat.id, true);
-            context.reply('Welcome 👋');
+            await context.reply('Welcome 👋');
         } else {
             const admins = await this.usersService.findAllAdmins();
             const toAdminsRegisterRequestMessage = this.constructRegisterRequestMessage(context);
-            await Promise.all(admins.map(admin => context.telegram.sendMessage(admin.chatId, toAdminsRegisterRequestMessage)));
-            context.reply('A request to register has been sent to administrators 🐒');
+            await Promise.all(admins.map(async admin => await context.telegram.sendMessage(admin.chatId, toAdminsRegisterRequestMessage)));
+            await context.reply('A request to register has been sent to administrators 🐒');
         }
     }
 
