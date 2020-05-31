@@ -14,9 +14,9 @@ export class TelegramStartCommandService {
     @TelegramActionHandler({ onStart: true })
     async start(context: Context, @PipeContext(TelegramUserContextTransformerService) user: User): Promise<void> {
         if (user) {
-            this.processRegisteredUser(context, user);
+            await this.processRegisteredUser(context, user);
         } else {
-            this.processAnonymousUser(context);
+            await this.processAnonymousUser(context);
         }
     }
 
@@ -39,8 +39,8 @@ export class TelegramStartCommandService {
                 const toAdminsRegisterRequestMessage = this.constructRegisterRequestMessage(context);
                 // order is important because first reply will be send via webhook and second via http request
                 const ramdonAdmin = admins[Math.floor(Math.random() * admins.length)];
-                await context.telegram.sendMessage(ramdonAdmin.chatId, toAdminsRegisterRequestMessage);
                 await context.reply('A request to register has been sent to administrators 🐒');
+                await context.telegram.sendMessage(ramdonAdmin.chatId, toAdminsRegisterRequestMessage);
             } else {
                 await context.reply('Administrators are not available now 😴');
             }

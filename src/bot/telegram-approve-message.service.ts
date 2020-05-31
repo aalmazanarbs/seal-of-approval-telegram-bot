@@ -4,14 +4,14 @@ import { PullRequestService } from '../approval/pull-request.service';
 import { TelegramUserContextTransformerService } from './telegram-user-context-transformer.service';
 import { PullRequest } from '../approval/pull-request';
 import { User } from '../persistence/user';
-import { validApproveUrlRegex } from './constants';
+import { approveUrlRegExp } from './messages-regex';
 
 @Injectable()
 export class TelegramApproveMessageService {
 
     constructor(private readonly pullRequestService: PullRequestService) { }
 
-    @TelegramActionHandler({ message: validApproveUrlRegex })
+    @TelegramActionHandler({ message: approveUrlRegExp })
     async approve(context: Context, @PipeContext(TelegramUserContextTransformerService) user: User): Promise<void> {
         if (user) {
             const pullRequest = this.extractPullRequestFromUrl(context.message.text);
@@ -27,7 +27,7 @@ export class TelegramApproveMessageService {
     }
 
     private extractPullRequestFromUrl(url: string): PullRequest {
-        const { groups: { repository, id } } = validApproveUrlRegex.exec(url);
+        const { groups: { repository, id } } = approveUrlRegExp.exec(url);
         return { repository, id };
     }
 }
