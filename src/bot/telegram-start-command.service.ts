@@ -38,9 +38,9 @@ export class TelegramStartCommandService {
             if (admins.length > 0) {
                 const toAdminsRegisterRequestMessage = this.constructRegisterRequestMessage(context);
                 // order is important because first reply will be send via webhook and second via http request
-                await context.reply('A request to register has been sent to administrators 🐒');
                 const ramdonAdmin = admins[Math.floor(Math.random() * admins.length)];
                 await context.telegram.sendMessage(ramdonAdmin.chatId, toAdminsRegisterRequestMessage);
+                await context.reply('A request to register has been sent to administrators 🐒');
             } else {
                 await context.reply('Administrators are not available now 😴');
             }

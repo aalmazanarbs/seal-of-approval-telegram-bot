@@ -14,8 +14,8 @@ export class TelegramRegisterCommandservice {
     async start(context: Context, @PipeContext(TelegramUserContextTransformerService) user: User): Promise<void> {
         if (user?.isAdmin) {
             const persistedUser = await this.usersService.save(this.convertRegisterRequestToUser(context.message.text));
-            await context.reply(`User ${persistedUser.userId} registered 🧐`);
             await context.telegram.sendMessage(persistedUser.chatId, `You can now get approvals sending valid urls 😏`);
+            await context.reply(`User ${persistedUser.userId} registered 🧐`);
         } else {
             await context.reply('You can not use register command ⛔');
         }
