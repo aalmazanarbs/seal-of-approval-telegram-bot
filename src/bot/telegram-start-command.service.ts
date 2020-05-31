@@ -35,14 +35,20 @@ export class TelegramStartCommandService {
             await context.reply('Welcome 👋');
         } else {
             const admins = await this.usersService.findAllAdmins();
-            const toAdminsRegisterRequestMessage = this.constructRegisterRequestMessage(context);
-            await Promise.all(admins.map(async admin => await context.telegram.sendMessage(admin.chatId, toAdminsRegisterRequestMessage)));
-            await context.reply('A request to register has been sent to administrators 🐒');
+            if (admins.length > 0) {
+                const toAdminsRegisterRequestMessage = this.constructRegisterRequestMessage(context);
+                // order is important because first reply will be send via webhook and second via http request
+                await context.reply('A request to register has been sent to administrators 🐒');
+                const ramdonAdmin = admins[Math.floor(Math.random() * admins.length)];
+                await context.telegram.sendMessage(ramdonAdmin.chatId, toAdminsRegisterRequestMessage);
+            } else {
+                await context.reply('Administrators are not available now 😴');
+            }
         }
     }
 
     private constructRegisterRequestMessage(context: Context): string {
-        return `🤖 Hi administrator, user ${context.from.first_name} with user_id "${context.from.id}" and chat_id "${context.chat.id}" wants to register. Type /register user_id chat_id to allow it`;
+        return `🤖 Hi administrator, user ${context.from.first_name} with user_id ${context.from.id} and chat_id ${context.chat.id} wants to register. Type /register user_id chat_id to allow it`;
     }
 
     private async safeOrUpdateUser(userId: number, chatId: number, isAdmin: boolean): Promise<void> {
