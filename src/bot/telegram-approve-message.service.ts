@@ -17,12 +17,12 @@ export class TelegramApproveMessageService {
             const pullRequest = this.extractPullRequestFromUrl(context.message.text);
             const approved = await this.pullRequestService.approve(pullRequest).toPromise();
             if (approved) {
-                await context.reply('Done 👍');
+                await context.reply('Approved 👍');
             } else {
                 await context.reply('Bot monkeys can not do nothing with this pull request 🙈');
             }
         } else {
-            await context.reply('You are not allowed to request approval, type /start for register request 🤓');
+            await context.reply('You are not allowed to request approvals, type /start for register request 🤓');
         }
     }
 
